@@ -1,0 +1,17 @@
+.send_verfication{
+    background: var(--bg-primary);
+    box-shadow: 0 1px 2px var(--shadow-1);
+    padding: 20px;
+    font-size: 14px;
+    color: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+.send_verfication a{
+    color: var(--blue-color);
+    cursor: pointer;
+}
+.send_verfication a:hover{
+    text-decoration: underline;
+}
