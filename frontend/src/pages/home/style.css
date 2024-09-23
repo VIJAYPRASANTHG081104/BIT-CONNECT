@@ -1,12 +1,12 @@
 .home {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background: var(--bg-secondary);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 25% 60% 20%;
 }
 .home_middle {
-  margin-top: 75px;
   position: absolute;
+  top: 50px;
   left: 50%;
   transform: translateX(-50%);
 }

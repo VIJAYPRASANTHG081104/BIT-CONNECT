@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
-import Public from "../../svg/public";
 import Dots from "../../svg/dots";
 import ReactsPopup from "./ReactsPopup";
 import CreateComment from "./CreateComment";
@@ -37,7 +36,6 @@ const Post = ({ post, user, profile }) => {
               <Moment fromNow interval={30}>
                 {post.createdAt}
               </Moment>
-              . <Public color="#828387" />
             </div>
           </div>
         </Link>
@@ -96,7 +94,7 @@ const Post = ({ post, user, profile }) => {
         </div>
       ) : (
         <div className="post_cover_wrap">
-          <img src={post.images[0].url} alt=""/>
+          <img src={post.images[0].url} alt="" />
         </div>
       )}
       <div className="post_infos">
@@ -110,29 +108,34 @@ const Post = ({ post, user, profile }) => {
         </div>
       </div>
       <div className="post_actions">
-        <ReactsPopup visible={visible} setVisible={setVisible} />
+        {/* <ReactsPopup visible={visible} setVisible={setVisible} /> */}
         <div
           className="post_action hover1"
-          onMouseOver={() => {
-            setTimeout(() => {
-              setVisible(true);
-            }, 500);
-          }}
-          onMouseLeave={() => {
-            setTimeout(() => {
-              setVisible(false);
-            }, 500);
-          }}
+          // onMouseOver={() => {
+          //   setTimeout(() => {
+          //     setVisible(true);
+          //   }, 500);
+          // }}
+          // onMouseLeave={() => {
+          //   setTimeout(() => {
+          //     setVisible(false);
+          //   }, 500);
+          // }}
+          onClick={() => setVisible((prev) => !prev)}
         >
-          <i className="like_icon"></i>
+          {visible === false ? (
+            <i class="fa-regular fa-thumbs-up"></i>
+          ) : (
+            <i class="fa-solid fa-thumbs-up"></i>
+          )}
           <span>Like</span>
         </div>
         <div className="post_action hover1">
-          <i className="comment_icon"></i>
+          <i class="fa-regular fa-comment"></i>
           <span>Comment</span>
         </div>
         <div className="post_action hover1">
-          <i className="share_icon"></i>
+          <i class="fa-solid fa-share"></i>
           <span>Share</span>
         </div>
       </div>

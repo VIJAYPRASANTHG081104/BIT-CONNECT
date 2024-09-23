@@ -12,7 +12,7 @@ const OldCovers = ({ photos, setCoverPicture, setShow }) => {
       <div className="postBox selectCoverBox" ref={ref}>
         <div className="box_header">
           <div className="small_circle" onClick={() => setShow(false)}>
-            <i className="exit_icon"></i>
+            <i className="fa-solid fa-x"></i>
           </div>
           <span>Select photo</span>
         </div>

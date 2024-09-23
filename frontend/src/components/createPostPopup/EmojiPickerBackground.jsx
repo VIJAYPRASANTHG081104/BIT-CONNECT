@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Picker from "emoji-picker-react";
 import { useMediaQuery } from "react-responsive";
+import Photo from "../../svg/photo";
+
 const EmojiPickerBackground = ({
   user,
   text,
@@ -8,6 +10,7 @@ const EmojiPickerBackground = ({
   type2,
   setbackground,
   background,
+  setShowPrev,
 }) => {
   const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
@@ -60,7 +63,7 @@ const EmojiPickerBackground = ({
           ref={textRef}
           maxLength="250"
           value={text}
-          placeholder={`What's on your mind, ${user.first_name}`}
+          placeholder={`What do you wnt to tell us ${user.first_name}!`}
           className={`post_input ${type2 && "input2"} ${
             sm && !background && "l0"
           }`}
@@ -74,6 +77,7 @@ const EmojiPickerBackground = ({
           }}
         ></textarea>
       </div>
+
       <div className={`${!type2 && "post_emojis_wrap"}`}>
         {picker && (
           <div
@@ -85,11 +89,19 @@ const EmojiPickerBackground = ({
           </div>
         )}
         {!type2 && (
-          <img
-            src="../../../icons/colorful.png"
-            alt=""
-            onClick={() => setShowBgs((pre) => !pre)}
-          />
+          <div className="post_set">
+            <img
+              src="../../../icons/colorful.png"
+              alt=""
+              onClick={() => setShowBgs((pre) => !pre)}
+            />
+            <div
+              className="post_header_right hover1"
+              onClick={() => setShowPrev(false)}
+            >
+              <Photo color="#45bd62" />
+            </div>
+          </div>
         )}
         {!type2 && showBgs && (
           <div className="post_backgrounds">

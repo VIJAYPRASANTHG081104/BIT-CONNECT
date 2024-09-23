@@ -45,7 +45,7 @@ const CreatePostPopup = ({ user, setVisible }) => {
       const postImages = images.map((img) => {
         return dataURItoBlob(img);
       });
-  
+
       const path = `${user.username}/post_images`;
       const formData = new FormData();
       formData.append("path", path);
@@ -53,7 +53,6 @@ const CreatePostPopup = ({ user, setVisible }) => {
         formData.append("file", images);
       });
       const response = await uploadImages(formData, path, user.token);
-  
 
       const res = await createPost(
         null,
@@ -67,8 +66,8 @@ const CreatePostPopup = ({ user, setVisible }) => {
         setLoading(false);
         setText("");
         setVisible(false);
-      }else{
-        setError(res)
+      } else {
+        setError(res);
       }
     } else if (text) {
       setLoading(true);
@@ -86,12 +85,6 @@ const CreatePostPopup = ({ user, setVisible }) => {
     <div className="blur">
       {error && <PostError error={error} setError={setError} />}
       <div className="postBox" ref={popup}>
-        <div className="box_header">
-          <div className="small_circle" onClick={() => setVisible(false)}>
-            <i className="exit_icon"></i>
-          </div>
-          <span>Create Post</span>
-        </div>
         <div className="box_profile">
           <img src={user.picture} className="box_profile_img" alt="" />
           <div className="box_col">
@@ -99,13 +92,12 @@ const CreatePostPopup = ({ user, setVisible }) => {
               {user.first_name}
               {user.last_name}
             </div>
-            <div className="box_privacy">
-              <img src="../../../icons/public.png" alt="" />
-              <span>Public</span>
-              <i className="arrowDown_icon"></i>
-            </div>
+          </div>
+          <div className="small_circle" onClick={() => setVisible(false)}>
+            <i className="fa-solid fa-x"></i>
           </div>
         </div>
+        <br/>
         {showPrev ? (
           <>
             <EmojiPickerBackground
@@ -114,6 +106,7 @@ const CreatePostPopup = ({ user, setVisible }) => {
               setText={setText}
               setbackground={setbackground}
               background={background}
+              setShowPrev={setShowPrev}
             />
           </>
         ) : (
@@ -127,7 +120,6 @@ const CreatePostPopup = ({ user, setVisible }) => {
             setError={setError}
           />
         )}
-        <AddToYourPost setShowPrev={setShowPrev} />
         {loading ? <PulseLoader color="#fff" size={5} /> : ""}
         <button className="post_submit" onClick={() => postSubmit()}>
           Post

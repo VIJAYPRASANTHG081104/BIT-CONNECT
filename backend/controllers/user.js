@@ -10,6 +10,7 @@ const {
 const { generatetoken } = require("../helper/token");
 const Code = require("../models/code");
 const { generateCode } = require("../helper/generateCode");
+const { sendVerificationEmail } = require("../helper/mailer");
 const register = async (req, res) => {
   console.log(req.body);
   try {
@@ -62,9 +63,14 @@ const register = async (req, res) => {
       gender,
     });
     await user.save();
-    // const emailVerificationToken = generatetoken({
-    //     id:user._id.toString()
-    // },"30m");
+    const emailVerificationToken = generatetoken({
+        id:user._id.toString()
+    },"30m");
+
+      const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+      sendVerificationEmail(user.email, user.first_name, url);
+
+
     const token = generatetoken({ id: user._id.toString() }, "7d");
     return res.send({
       id: user._id,
@@ -150,8 +156,7 @@ const sendVerification = async (req, res) => {
       "50m"
     );
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
-    // sendVerificationToken(user.email,user.first_name,url)
-    // temporary
+    sendVerificationEmail(user.email,user.first_name,url)
     return res
       .status(200)
       .send({ msg: "Link send to email", activateLink: url });

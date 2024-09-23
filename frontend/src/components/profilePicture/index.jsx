@@ -44,7 +44,7 @@ const ProfilePicture = ({ setShow, changePicture, photos }) => {
       <div className="postBox pictureBox" ref={popUp}>
         <div className="box_header">
           <div className="small_circle" onClick={() => setShow(false)}>
-            <i className="exit_icon"></i>
+            <i className="fa-solid fa-x"></i>
           </div>
           <span>Update profile picture</span>
         </div>

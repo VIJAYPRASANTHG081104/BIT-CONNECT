@@ -457,16 +457,7 @@
   display: inline-block;
   filter: invert(40%);
 }
-.exit_icon {
-  background-image: url("../../../public/icons/icons6.png");
-  background-position: -126px -71px;
-  background-size: auto;
-  width: 20px;
-  height: 20px;
-  background-repeat: no-repeat;
-  display: inline-block;
-  filter: invert(40%);
-}
+
 .edit_icon {
   background-image: url("../../../public/icons/icons18.png");
   background-position: -34px -109px;

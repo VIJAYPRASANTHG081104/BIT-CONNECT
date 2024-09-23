@@ -8,14 +8,15 @@
 }
 
 /*-------login-----*/
-.login_wrapper {
+
+.login{
+  height: 100vh;
+  align-items: center;
+  display: flex;
+  justify-content: center;
   background: var(--bg-secondary);
 }
 
-.login_wrap {
-  height: 78vh;
-  color: var(--color-primary);
-}
 .login_1 {
   width: 300px;
   margin: 0 auto;
@@ -27,19 +28,20 @@
   text-align: center;
 }
 .login_2_wrap {
+  /* border: 2px solid; */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  background: var(--bg-primary);
-  box-shadow: 0 1px 2px var(--shadow-1);
+  background: var(--bg-secondary);
+  /* box-shadow: 0 1px 2px var(--shadow-1); */
   padding: 1rem;
   padding-bottom: 2rem;
   width: 350px;
   height: fit-content;
   margin: 1rem auto;
   user-select: none;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 .login_2_wrap button {
   width: 100%;
@@ -61,7 +63,10 @@
   background: var(--bg-third);
 }
 .open_signup {
-  background: var(--green-color) !important;
+  /* background: var(--green-color) !important; */
+  background: transparent !important;
+  color: var(--blue-color) !important;
+  border: 2px solid var(--blue-color) !important;
   width: 70% !important;
   font-weight: 600 !important;
   font-size: 17px !important;
@@ -74,7 +79,7 @@
 
 /*-----Register---------*/
 .register {
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -175,18 +180,20 @@
   color: var(--blue-color);
 }
 .reg_btn_wrapper {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 0 10px 0;
+  width: 50%;
+  margin-left: 18rem;
+}
+.reg_btn_wrapper button{
+  border-radius: 2px !important;
+  background: var(--blue-color) !important;
+  color: #fff !important;
 }
 /*-----Register---------*/
 
 /*----Footer------*/
-.login_footer {
+/* .login_footer {
   height: 22vh;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   padding: 1.5rem;
 }
 .login_footer_wrap {
@@ -224,7 +231,7 @@
   background: var(--bg-third);
   margin: 10px auto;
   max-width: 900px;
-}
+} */
 /*----Footer------*/
 
 /*----dob and gender errors-----*/

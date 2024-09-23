@@ -112,9 +112,9 @@ const RegisterForm = ({setVisible}) => {
     <div className="blur">
       <div className="register">
         <div className="register_header">
-          <i className="exit_icon" onClick={()=>setVisible(false)}></i>
+          <i className="fa-solid fa-x" onClick={()=>setVisible(false)}></i>
           <span>Sign Up</span>
-          <span>it's quick and easy</span>
+          <span>Register to login</span>
         </div>
         <Formik
           enableReinitialize
@@ -165,7 +165,7 @@ const RegisterForm = ({setVisible}) => {
                 />
                 <RegisterInput
                   type="text"
-                  placeholder="Surname"
+                  placeholder="Last name"
                   name="last_name"
                   onChange={handleRegisterChange}
                 />
@@ -173,7 +173,7 @@ const RegisterForm = ({setVisible}) => {
               <div className="reg_line">
                 <RegisterInput
                   type="text"
-                  placeholder="Mobile number or email address"
+                  placeholder="Email address"
                   name="email"
                   onChange={handleRegisterChange}
                 />
@@ -210,12 +210,6 @@ const RegisterForm = ({setVisible}) => {
                   handleRegisterChange={handleRegisterChange}
                   genderError={genderError}
                 />
-              </div>
-              <div className="reg_infos">
-                By clicking Sign Up, you agree to our{" "}
-                <span>Terms, Data Policy &nbsp;</span>
-                and <span>Cookie Policy.</span> You may receive SMS
-                notifications from us and can opt out at any time.
               </div>
               <div className="reg_btn_wrapper">
                 <button type="submit" className="blue_btn open_signup">

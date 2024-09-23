@@ -102,7 +102,7 @@ const CreateComment = ({ user }) => {
             <div className="comment_img_preview">
                 <img src={commentImage}  alt=""/>
                 <div className="small_white_circle" onClick={()=>setCommentImage("")}>
-                    <i className="exit_icon"></i>
+                    <i className="fa-solid fa-x"></i>
                 </div>
             </div>
         )

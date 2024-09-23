@@ -32,12 +32,11 @@ const SearchMenu = ({ color, setShowSearchMenu }) => {
               <Search color={color} />
             </div>
           )}
-          <input type="text" placeholder="search Facebook" ref={input} onBlur={()=>setIconVisible(true)} onFocus={()=>setIconVisible(false)}/>
+          <input type="text" placeholder="search" ref={input} onBlur={()=>setIconVisible(true)} onFocus={()=>setIconVisible(false)}/>
         </div>
       </div>
       <div className="search_history_header">
         <span>Recent search</span>
-        <a>Edit</a>
       </div>
       <div className="search_history"></div>
       <div className="search_result_scrollbar"></div>

@@ -38,8 +38,6 @@
 }
 .createPost_body{
     padding: 0 10px 8px 10px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
 }
 .createPost_icon{
     display: flex;
@@ -51,4 +49,8 @@
     color: var(--color-secondary);
     border-radius: 10px;
     font-size: 14px;
+}
+.fa-photo-film{
+    color: var(--blue-color);
+    font-size: 25px;
 }

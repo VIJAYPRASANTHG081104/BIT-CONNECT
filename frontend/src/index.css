@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 body {
-  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: "Oswald", sans-serif;
 }
 html {
   overflow-y: scroll;
@@ -15,7 +16,7 @@ a {
 }
 :root {
   --bg-primary: #fff;
-  --bg-secondary: #f0f2f5;
+  --bg-secondary: #f4f2ee;
   --bg-third: #e4e6eb;
   --bg-forth: #f0f2f5;
   --color-primary: #050505;
@@ -26,7 +27,7 @@ a {
   --dark-bg-third: #3a3b3c;
   --dark-color-primary: #242526;
   --dark-color-secondary: #b0b3b8;
-  --blue-color: #1876f2;
+  --blue-color: #0a66c2;
   --green-color: #42b72a;
   --light-blue-color: #e7f3ff;
   --border-color: #ccced2;
@@ -78,20 +79,23 @@ a {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.768);
+  background: rgba(82, 81, 81, 0.768);
   z-index: 99999;
 }
 
 /* hovers */
 
 .hover1:hover {
-  background: var(--bg-secondary);
+  background: #ffd1d1;
+  transition: 0.5s;
 }
 .hover2:hover {
   background: var(--bg-secondary);
+  transition: 0.5s;
 }
 .hover3:hover {
   background: #d4d6da3a;
+  transition: 0.5s;
 }
 
 /* hovers */
@@ -116,7 +120,6 @@ a {
   align-items: center;
   justify-content: center;
   margin-right: 11px;
-  background: var(--bg-third);
   cursor: pointer;
 }
 /* circle */

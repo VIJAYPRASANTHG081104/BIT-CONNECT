@@ -10,6 +10,9 @@
   max-width: 945px;
   margin: 0 auto;
 }
+.profilePt{
+  width: 100% !important;
+}
 .profile_cover {
   position: relative;
   height: 350px;
@@ -236,8 +239,8 @@
   color: var(--blue-color);
 }
 .profile_grid {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
+  /* display: grid; */
+  /* grid-template-columns: 40% 60%; */
   gap: 10px;
 }
 /*------ppl u may know------*/

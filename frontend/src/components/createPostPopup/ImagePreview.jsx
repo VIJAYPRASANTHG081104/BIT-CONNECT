@@ -63,7 +63,7 @@ const ImagePreview = ({
               </button>
             </div>
             <div className="small_white_circle" onClick={() => setImages([])}>
-              <i className="exit_icon"></i>
+              <i className="fa-solid fa-x"></i>
             </div>
             <div
               className={`${
@@ -93,7 +93,7 @@ const ImagePreview = ({
               className="small_white_circle"
               onClick={() => setShowPrev(true)}
             >
-              <i className="exit_icon"></i>
+              <i className="fa-solid fa-x"></i>
             </div>
             <div className="add_col" onClick={() => ImageInput.current.click()}>
               <div className="add_circle">
@@ -104,13 +104,6 @@ const ImagePreview = ({
             </div>
           </div>
         )}
-        <div className="add_pics_inside2">
-          <div className="add_circle">
-            <i className="phone_icon"></i>
-          </div>
-          <div className="mobile_text">Add photos from your mobile device</div>
-          <span className="addphone_btn">Add</span>
-        </div>
       </div>
     </div>
   );

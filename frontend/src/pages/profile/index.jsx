@@ -8,13 +8,9 @@ import Cover from "./Cover";
 import "./style.css";
 import ProfilePictureInfos from "./ProfilePictureInfos";
 import ProfileMenu from "./ProfileMenu";
-import PplYouMayKnow from "./PplYouMayKnow";
 import CreatePost from "../../components/createPost/index";
-import GridPosts from "./GridPosts";
 import Post from "../../components/post/index";
-import Photos from "./Photos";
 import Friends from "./Friends";
-import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import Intro from "../../components/intro";
 
@@ -83,7 +79,7 @@ const Profile = ({ setVisible }) => {
       });
     }
   };
-  console.log(profile)
+  console.log(profile);
   const profileTop = useRef(null);
   const leftSide = useRef(null);
   const [height, setHeight] = useState();
@@ -116,49 +112,23 @@ const Profile = ({ setVisible }) => {
             vistor={vistor}
             othername={othername}
           />
-          <ProfileMenu />
+          {/* <ProfileMenu /> */}
         </div>
       </div>
       <div className="profile_bottom">
         <div className="profile_container">
           <div className="bottom_container">
-            <PplYouMayKnow />
-            <div
-              className={`profile_grid ${
-                check && scrollHeight >= height && leftHeight > 1000
-                  ? "scrollFixed showLess"
-                  : check &&
-                    scrollHeight >= height &&
-                    leftHeight < 1000 &&
-                    "scrollFixed showMore"
-              }`}
-            >
+            {/* <PplYouMayKnow /> */}
+            <div className="profile_grid">
               <div className="profile_left" ref={leftSide}>
                 <Intro
                   vistor={vistor}
                   detailss={profile.details}
                   setOtherName={setOtherName}
                 />
-                <Photos photos={photos} />
+                {/* <Photos photos={photos} /> */}
                 <Friends friends={profile.friends} />
-                <div className={"relative_fb_copyright"}>
-                  <Link to={"/"}>Privacy </Link>
-                  <span>.</span>
-                  <Link to={"/"}>Terms </Link>
-                  <span>.</span>
-                  <Link to={"/"}>Advertising </Link>
-                  <span>.</span>
-                  <Link to={"/"}>
-                    Ad Choices <i className="ad_choices_icon"></i>
-                  </Link>
-                  <span>.</span>
-                  <Link to={"/"}>Cookies </Link>
-                  <span>.</span>
-                  <Link to={"/"}>More </Link>
-                  <span>.</span>
-                  <br />
-                  Andio@2024
-                </div>
+                <div className={"relative_fb_copyright"}>Andio@2024</div>
               </div>
               <div className="profile_right">
                 {!vistor && (
@@ -168,17 +138,17 @@ const Profile = ({ setVisible }) => {
                     setVisible={setVisible}
                   />
                 )}
-                <GridPosts />
-                <div className="post">
+                <br />
+                <div className="post profilePt">
                   {profile.post && profile.post.length ? (
                     profile.post.map((post, index) => {
                       return (
-                        <Post
-                          user={user}
-                          key={post._id}
-                          post={post}
-                          profile={profile}
-                        />
+                          <Post
+                            user={user}
+                            key={post._id}
+                            post={post}
+                            profile={profile}
+                          />
                       );
                     })
                   ) : (

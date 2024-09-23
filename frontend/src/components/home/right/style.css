@@ -1,8 +1,10 @@
 .right_home {
   position: fixed;
   left: 80.7vw;
-  top: 4rem;
   width: 17vw;
+  top: 75px;
+  background: var(--bg-primary);
+  border-radius: 5px;
 }
 .splitter1 {
   height: 1.3px;
@@ -17,7 +19,7 @@
   justify-content: space-between;
   padding: 12px 0 7px 10px;
   font-weight: 600;
-  color: var(--color-secondary);
+  color: var(--color-primary);
 }
 .contacts_header_right {
   display: flex;

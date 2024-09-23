@@ -28,6 +28,7 @@
 .box_profile {
   display: flex;
   gap: 12px;
+  align-items: center;
   padding: 17px 17px 5px 17px;
 }
 .box_profile .box_profile_img {
@@ -405,6 +406,10 @@
 .postError_error {
   width: 75%;
   font-weight: 600;
+}
+.post_set{
+  display: flex;
+  gap: 1rem;
 }
 /*----post error----*/
 

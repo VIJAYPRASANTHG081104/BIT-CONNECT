@@ -16,7 +16,7 @@ const EditDetails = ({
       <div className="postBox infosBox" ref={modal}>
         <div className="box_header">
           <div className="small_circle" onClick={() => setVisible(false)}>
-            <i className="exit_icon"></i>
+            <i className="fa-solid fa-x"></i>
           </div>
           <span>Edit Details</span>
         </div>

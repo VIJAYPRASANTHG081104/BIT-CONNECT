@@ -109,7 +109,7 @@ const UpdateProfilePicture = ({
     <div className="postBox update_img">
       <div className="box_header">
         <div className="small_circle" onClick={() => setImage("")}>
-          <i className="exit_icon"></i>
+          <i className="fa-solid fa-x"></i>
         </div>
         <span>Update profile picture</span>
       </div>

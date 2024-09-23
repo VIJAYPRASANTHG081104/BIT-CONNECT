@@ -169,10 +169,6 @@ const Intro = ({ detailss, vistor, setOtherName }) => {
           setVisible={setVisible}
         />
       )}
-      {!vistor && <button className="gray_btn hover1 w100">Add Hobbies</button>}
-      {!vistor && (
-        <button className="gray_btn hover1 w100">Add Featured</button>
-      )}
     </div>
   );
 };
