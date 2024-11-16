@@ -403,6 +403,14 @@
   color: var(--blue-color);
   border-bottom: 3px solid var(--blue-color);
 }
+.friendship{
+  display: flex;
+  gap: 10px;
+}
+.friendrequest{
+  display: flex;
+   gap: 10px;
+}
 /*-----profile card--------*/
 @media (max-width: 900px) {
   .profile_w_left {
@@ -437,6 +445,10 @@
   }
   .bottom_container {
     padding: 5px;
+  }
+  .friendship{
+    transform: translateY(-4rem);
+
   }
 }
 @media (max-width: 650px) {

@@ -63,13 +63,15 @@ const register = async (req, res) => {
       gender,
     });
     await user.save();
-    const emailVerificationToken = generatetoken({
-        id:user._id.toString()
-    },"30m");
+    const emailVerificationToken = generatetoken(
+      {
+        id: user._id.toString(),
+      },
+      "30m"
+    );
 
-      const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
-      sendVerificationEmail(user.email, user.first_name, url);
-
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    sendVerificationEmail(user.email, user.first_name, url);
 
     const token = generatetoken({ id: user._id.toString() }, "7d");
     return res.send({
@@ -156,7 +158,7 @@ const sendVerification = async (req, res) => {
       "50m"
     );
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
-    sendVerificationEmail(user.email,user.first_name,url)
+    sendVerificationEmail(user.email, user.first_name, url);
     return res
       .status(200)
       .send({ msg: "Link send to email", activateLink: url });
@@ -284,10 +286,10 @@ const getProfile = async (req, res) => {
       .find({ user: profile._id })
       .populate("user")
       .sort({ createdAt: -1 });
-      console.log(profile )
-      console.log("after")
+    console.log(profile);
+    console.log("after");
     console.log({ ...profile.toObject() });
-    return res.status(200).send({...profile.toObject(), post, friendship });
+    return res.status(200).send({ ...profile.toObject(), post, friendship });
   } catch (error) {
     return res.status(500).send({
       msg: error.message,
@@ -338,7 +340,7 @@ const updateDetails = async (req, res) => {
   }
 };
 
-const addFriend = async (req, res) => {
+const follow = async (req, res) => {
   try {
     if (req.user.id !== req.params.id) {
       const sender = await model.findById(req.user.id);
@@ -353,12 +355,12 @@ const addFriend = async (req, res) => {
         // await sender.updateOne({ $push: { following: receiver._id } });
         await model.updateOne(
           { _id: receiver._id },
-          { $push: { requests: sender._id, followers: sender._id } }
+          { $push: { requests: sender._id } }
         );
-        await model.updateOne(
-          { _id: sender.id },
-          { $push: { following: receiver._id } }
-        );
+        // await model.updateOne(
+        //   { _id: sender.id },
+        //   { $push: { following: receiver._id } }
+        // );
         return res.status(200).json({ message: "request send successfully" });
       } else {
         return res.status(200).json({ message: "Already sended" });
@@ -381,12 +383,12 @@ const cancelRequest = async (req, res) => {
       if (receiver.requests.includes(sender._id)) {
         await model.updateOne(
           { _id: receiver._id },
-          { $pull: { requests: sender._id, followers: sender._id } }
+          { $pull: { requests: sender._id } }
         );
-        await model.updateOne(
-          { _id: sender.id },
-          { $pull: { following: receiver._id } }
-        );
+        // await model.updateOne(
+        //   { _id: sender.id },
+        //   { $pull: { following: receiver._id } }
+        // );
         return res
           .status(200)
           .json({ message: "request canceled successfully" });
@@ -402,64 +404,64 @@ const cancelRequest = async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 };
-const follow = async (req, res) => {
-  try {
-    if (req.user.id !== req.params.id) {
-      const sender = await model.findById(req.user.id);
-      const receiver = await model.findById(req.params.id);
-      if (
-        !receiver.followers.includes(sender._id) &&
-        !sender.following.includes(receiver._id)
-      ) {
-        await model.updateOne(
-          { _id: receiver._id },
-          { $push: { followers: sender._id } }
-        );
-        await model.updateOne(
-          { _id: sender.id },
-          { $push: { following: receiver._id } }
-        );
-        return res.status(200).json({ message: "followed successfully" });
-      } else {
-        return res.status(200).json({ message: "Already following" });
-      }
-    } else {
-      return res.status(200).json({ message: "you can't follow to yourself!" });
-    }
-  } catch (error) {
-    return res.status(400).json({ message: error.message });
-  }
-};
-const unfollow = async (req, res) => {
-  try {
-    if (req.user.id !== req.params.id) {
-      const sender = await model.findById(req.user.id);
-      const receiver = await model.findById(req.params.id);
-      if (
-        receiver.followers.includes(sender._id) &&
-        sender.following.includes(receiver._id)
-      ) {
-        await model.updateOne(
-          { _id: receiver._id },
-          { $push: { followers: sender._id }, $pull: { requests: sender._id } }
-        );
-        await model.updateOne(
-          { _id: sender.id },
-          { $push: { following: receiver._id } }
-        );
-        return res.status(200).json({ message: "unfollowed successfully" });
-      } else {
-        return res.status(200).json({ message: "Already unfollowing" });
-      }
-    } else {
-      return res
-        .status(200)
-        .json({ message: "you can't unfollow to yourself!" });
-    }
-  } catch (error) {
-    return res.status(400).json({ message: error.message });
-  }
-};
+// const follow = async (req, res) => {
+//   try {
+//     if (req.user.id !== req.params.id) {
+//       const sender = await model.findById(req.user.id);
+//       const receiver = await model.findById(req.params.id);
+//       if (
+//         !receiver.followers.includes(sender._id) &&
+//         !sender.following.includes(receiver._id)
+//       ) {
+//         await model.updateOne(
+//           { _id: receiver._id },
+//           { $push: { followers: sender._id } }
+//         );
+//         await model.updateOne(
+//           { _id: sender.id },
+//           { $push: { following: receiver._id } }
+//         );
+//         return res.status(200).json({ message: "followed successfully" });
+//       } else {
+//         return res.status(200).json({ message: "Already following" });
+//       }
+//     } else {
+//       return res.status(200).json({ message: "you can't follow to yourself!" });
+//     }
+//   } catch (error) {
+//     return res.status(400).json({ message: error.message });
+//   }
+// };
+// const unfollow = async (req, res) => {
+//   try {
+//     if (req.user.id !== req.params.id) {
+//       const sender = await model.findById(req.user.id);
+//       const receiver = await model.findById(req.params.id);
+//       if (
+//         receiver.followers.includes(sender._id) &&
+//         sender.following.includes(receiver._id)
+//       ) {
+//         await model.updateOne(
+//           { _id: receiver._id },
+//           { $push: { followers: sender._id }, $pull: { requests: sender._id } }
+//         );
+//         await model.updateOne(
+//           { _id: sender.id },
+//           { $push: { following: receiver._id } }
+//         );
+//         return res.status(200).json({ message: "unfollowed successfully" });
+//       } else {
+//         return res.status(200).json({ message: "Already unfollowing" });
+//       }
+//     } else {
+//       return res
+//         .status(200)
+//         .json({ message: "you can't unfollow to yourself!" });
+//     }
+//   } catch (error) {
+//     return res.status(400).json({ message: error.message });
+//   }
+// };
 
 const acceptRequest = async (req, res) => {
   try {
@@ -469,11 +471,14 @@ const acceptRequest = async (req, res) => {
       if (receiver.requests.includes(sender._id)) {
         await model.updateOne(
           { _id: receiver._id },
-          { $push: { friends: sender._id, following: sender._id } }
+          {
+            $push: { following: sender._id, followers: sender._id },
+            $pull: { requests: sender._id },
+          }
         );
         await model.updateOne(
           { _id: sender.id },
-          { $push: { followers: receiver._id, friends: receiver._id } }
+          { $push: { followers: receiver._id, following: receiver._id } }
         );
         return res.status(200).json({ message: "accepted successfully" });
       } else {
@@ -487,7 +492,7 @@ const acceptRequest = async (req, res) => {
   }
 };
 
-const unFriend = async (req, res) => {
+const unfollow = async (req, res) => {
   try {
     if (req.user.id !== req.params.id) {
       const sender = await model.findById(req.user.id);
@@ -500,7 +505,7 @@ const unFriend = async (req, res) => {
           { _id: receiver._id },
           {
             $pull: {
-              friends: sender._id,
+              // friends: sender._id,
               following: sender._id,
               followers: sender._id,
             },
@@ -510,7 +515,7 @@ const unFriend = async (req, res) => {
           { _id: sender.id },
           {
             $pull: {
-              friends: receiver._id,
+              // friends: receiver._id,
               following: receiver._id,
               followers: receiver._id,
             },
@@ -540,18 +545,18 @@ const deleteRequest = async (req, res) => {
           {
             $pull: {
               requests: sender.id,
-              followers: sender._id,
+              // followers: sender._id,
             },
           }
         );
-        await model.updateOne(
-          { _id: sender.id },
-          {
-            $pull: {
-              following: receiver._id,
-            },
-          }
-        );
+        // await model.updateOne(
+        //   { _id: sender.id },
+        //   {
+        //     $pull: {
+        //       following: receiver._id,
+        //     },
+        //   }
+        // );
         return res.status(200).json({ message: "deleted successfully" });
       } else {
         return res.status(200).json({ message: "Already deleted" });
@@ -577,11 +582,11 @@ module.exports = {
   updateProfilePicture,
   updateProfileCover,
   updateDetails,
-  addFriend,
+  // addFriend,
   cancelRequest,
   follow,
   unfollow,
   acceptRequest,
-  unFriend,
+  // unFriend,
   deleteRequest,
 };
