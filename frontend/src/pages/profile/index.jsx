@@ -13,8 +13,10 @@ import Post from "../../components/post/index";
 import Friends from "./Friends";
 import { useMediaQuery } from "react-responsive";
 import Intro from "../../components/intro";
+import CreatePostPopup from "../../components/createPostPopup";
 
-const Profile = ({ setVisible }) => {
+const Profile = ({getAllPosts}) => {
+  const [visible,setVisible] = useState(false);
   const navigate = useNavigate();
   const [othername, setOtherName] = useState();
   const user = useSelector((state) => state.user);
@@ -26,7 +28,7 @@ const Profile = ({ setVisible }) => {
     profile: {},
     error: "",
   });
-
+  console.log(profile);
   const path = `${userName}/*`;
   const max = 30;
   const sort = "desc";
@@ -79,7 +81,6 @@ const Profile = ({ setVisible }) => {
       });
     }
   };
-  console.log(profile);
   const profileTop = useRef(null);
   const leftSide = useRef(null);
   const [height, setHeight] = useState();
@@ -98,7 +99,16 @@ const Profile = ({ setVisible }) => {
   };
   return (
     <div className="profile">
-      <Header page={"profile"} />
+      {visible && (
+        <CreatePostPopup
+          setVisible={setVisible}
+          user={user}
+          post={profile?.post}
+          dispatch={dispatch}
+          profile
+        />
+      )}
+      <Header page={"profile"} getAllPosts={getAllPosts}/>
       <div className="profile_top" ref={profileTop}>
         <div className="profile_container">
           <Cover
@@ -143,12 +153,12 @@ const Profile = ({ setVisible }) => {
                   {profile.post && profile.post.length ? (
                     profile.post.map((post, index) => {
                       return (
-                          <Post
-                            user={user}
-                            key={post._id}
-                            post={post}
-                            profile={profile}
-                          />
+                        <Post
+                          user={user}
+                          key={post._id}
+                          post={post}
+                          profile={profile}
+                        />
                       );
                     })
                   ) : (

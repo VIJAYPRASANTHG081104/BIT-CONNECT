@@ -12,7 +12,6 @@ const Code = require("../models/code");
 const { generateCode } = require("../helper/generateCode");
 const { sendVerificationEmail } = require("../helper/mailer");
 const register = async (req, res) => {
-  console.log(req.body);
   try {
     const {
       first_name,
@@ -26,25 +25,25 @@ const register = async (req, res) => {
       gender,
     } = req.body;
     if (!validationEmail(email)) {
-      return res.status(400).send({ msg: "Enter the valide email" });
+      return res.status(400).send({ message: "Enter the valide email" });
     }
     const check = await model.findOne({ email: email });
     if (check) {
-      return res.status(400).send({ msg: "Email already Exist!" });
+      return res.status(400).send({ message: "Email already Exist!" });
     }
     if (validateLength(first_name, 3, 30)) {
       return res.status(400).send({
-        msg: "First Name must be between 3 and 30 character",
+        message: "First Name must be between 3 and 30 character",
       });
     }
     if (validateLength(last_name, 3, 30)) {
       return res.status(400).send({
-        msg: "Last Name must be between 3 and 30 character",
+        message: "Last Name must be between 3 and 30 character",
       });
     }
     if (validateLength(password, 6, 40)) {
       return res.status(400).send({
-        msg: "Password must be atleast 6 character",
+        message: "Password must be atleast 6 character",
       });
     }
     const cryptedPassword = await bcrypt.hash(password, 10);
@@ -82,27 +81,26 @@ const register = async (req, res) => {
       last_name: user.last_name,
       token: token,
       Verfied: user.Verfied,
-      msg: "Register Success",
+      message: "Register Success",
     });
     // return res.send(emailVerificationToken)
   } catch (error) {
-    res.status(500).json({ msg: "user not created", error: error.message });
+    res.status(500).json({ message: "user not created", error: error.message });
   }
 };
 
 const login = async (req, res) => {
-  console.log(req.body);
   try {
     const { email, password } = req.body;
     const user = await model.findOne({ email });
     if (!user) {
-      return res.send({ msg: " No user found" });
+      return res.send({ message: " No user found" });
     }
     const check = await bcrypt.compare(password, user.password);
     if (!check) {
       return res
         .status(400)
-        .send({ msg: "Invalid credentials.Please try again." });
+        .send({ message: "Invalid credentials.Please try again." });
     }
     const token = generatetoken({ id: user._id.toString() }, "7d");
     return res.send({
@@ -113,7 +111,7 @@ const login = async (req, res) => {
       last_name: user.last_name,
       token: token,
       Verfied: user.Verfied,
-      msg: "Register Success",
+      message: "Register Success",
     });
   } catch (error) {
     res.status(500).send({ err: error });
@@ -127,21 +125,24 @@ const activateAccount = async (req, res) => {
     const { token } = req.body;
 
     const user = jwt.verify(token, process.env.TOKEN_SECRET);
-    // console.log(user);
     if (validId !== user.id) {
-      return res.status(500).send({ msg: "Your not allowed to use this link" });
+      return res
+        .status(500)
+        .send({ message: "Your not allowed to use this link" });
     }
     const check = await model.findById(user.id);
     if (check.Verfied === true) {
-      return res.status(400).send({ msg: "This email is already verified" });
+      return res
+        .status(400)
+        .send({ message: "This email is already verified" });
     } else {
       await model.findByIdAndUpdate(user.id, { Verfied: true });
       return res
         .status(200)
-        .send({ msg: "Account has been activated successfully " });
+        .send({ message: "Account has been activated successfully " });
     }
   } catch (error) {
-    res.status(500).send({ msg: error.message });
+    res.status(500).send({ message: error.message });
   }
 };
 const sendVerification = async (req, res) => {
@@ -149,7 +150,7 @@ const sendVerification = async (req, res) => {
     const id = req.user.id;
     const user = await model.findById(id);
     if (user.Verfied === true) {
-      res.status(400).send({ msg: "The account is already verified" });
+      res.status(400).send({ message: "The account is already verified" });
     }
     const emailVerificationToken = generatetoken(
       {
@@ -161,9 +162,9 @@ const sendVerification = async (req, res) => {
     sendVerificationEmail(user.email, user.first_name, url);
     return res
       .status(200)
-      .send({ msg: "Link send to email", activateLink: url });
+      .send({ message: "Link send to email", activateLink: url });
   } catch (error) {
-    return res.status(500).send({ msg: error });
+    return res.status(500).send({ message: error });
   }
 };
 const findUser = async (req, res) => {
@@ -171,16 +172,14 @@ const findUser = async (req, res) => {
     const { email } = req.body;
     const user = await model.findOne({ email }).select("-password");
     if (!user) {
-      res.status(400).send({ msg: "Email does not exist" });
+      res.status(400).send({ message: "Email does not exist" });
     }
-    console.log(user.picture);
     return res.status(200).send({
       picture: user.picture,
       email: user.email,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({ msg: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 
@@ -189,7 +188,7 @@ const sendResetPasswordCode = async (req, res) => {
     const { email } = req.body;
     const user = await model.findOne({ email: email }).select("-password");
     if (!user) {
-      return res.status(400).send({ msg: "email does not exist" });
+      return res.status(400).send({ message: "email does not exist" });
     }
 
     await Code.findOneAndDelete({ user: user._id });
@@ -202,11 +201,11 @@ const sendResetPasswordCode = async (req, res) => {
     // sendMail function :)
     // not return still
     return res.status(200).send({
-      msg: "Mail reset code has been sent to your mail",
+      message: "Mail reset code has been sent to your mail",
     });
   } catch (error) {
     return res.status(500).send({
-      msg: error.message,
+      message: error.message,
     });
   }
 };
@@ -218,20 +217,18 @@ const validateResetcode = async (req, res) => {
     const DbCode = await Code.findOne({ user: user._id });
     if (DbCode.code.toString() !== code) {
       return res.status(400).send({
-        msg: "verification is wrong",
+        message: "verification is wrong",
       });
     }
-    return res.status(200).send({ msg: "ok" });
+    return res.status(200).send({ message: "ok" });
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({
-      msg: error.message,
+      message: error.message,
     });
   }
 };
 
 const changePassword = async (req, res) => {
-  console.log(req.body);
   try {
     const { email, password } = req.body;
 
@@ -243,11 +240,11 @@ const changePassword = async (req, res) => {
       }
     );
     return res.status(200).send({
-      msg: "successfull",
+      message: "successfull",
     });
   } catch (error) {
     return res.status(500).send({
-      msg: error.message,
+      message: error.message,
     });
   }
 };
@@ -285,14 +282,15 @@ const getProfile = async (req, res) => {
     const post = await postModel
       .find({ user: profile._id })
       .populate("user")
+      .populate(
+        "comments.commentBy",
+        "first_name last_name picture username commentAt"
+      )
       .sort({ createdAt: -1 });
-    console.log(profile);
-    console.log("after");
-    console.log({ ...profile.toObject() });
     return res.status(200).send({ ...profile.toObject(), post, friendship });
   } catch (error) {
     return res.status(500).send({
-      msg: error.message,
+      message: error.message,
     });
   }
 };

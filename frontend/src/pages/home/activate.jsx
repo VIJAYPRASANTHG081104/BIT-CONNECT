@@ -33,7 +33,7 @@ const Activate = () => {
                     Authorization: `Bearer ${user.token}`,
                 }
             })
-            setSuccess(data.msg);
+            setSuccess(data.message);
             Cookies.set('user',JSON.stringify({...user,Verfied:true}));
             dispatch({
                 type:"VERIFY",
@@ -43,7 +43,7 @@ const Activate = () => {
                 navigate('/');
             },3000)
         } catch (error) {
-            setError(error.response.data.msg);
+            setError(error.response.data.message);
         }
     }
   return (

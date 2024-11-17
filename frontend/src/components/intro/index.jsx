@@ -53,7 +53,6 @@ const Intro = ({ detailss, vistor, setOtherName }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name);
     setInfos({ ...infos, [name]: value });
     setMax(100 - e.target.value.length);
   };

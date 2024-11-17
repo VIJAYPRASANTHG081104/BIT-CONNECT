@@ -15,11 +15,11 @@ const SendVerification = ({user}) => {
                     }
                 }
             )
-            setSuccess(data.msg);
+            setSuccess(data.message);
             console.log(data.activateLink);
         } catch (error) {
       
-            setError(error.respones.data.msg);
+            setError(error.respones.data.message);
         }
     }
   return (

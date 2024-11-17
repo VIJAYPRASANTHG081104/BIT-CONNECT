@@ -31,7 +31,6 @@ const ProfilePicture = ({ setShow, changePicture, photos }) => {
       setImage(event.target.result);
     };
   };
-  console.log(image)
   return (
     <div className="blur">
       <input

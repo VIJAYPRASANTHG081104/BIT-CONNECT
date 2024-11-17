@@ -18,7 +18,6 @@ const FriendShip = ({ friendshipp, profileid }) => {
   //   };
   const user = useSelector((state) => state.user);
   const [friendship, setFriendShip] = useState(friendshipp);
-  console.log(friendship);
 
   const addfollowHandler = async () => {
     setFriendShip({ ...FriendShip, requestSent: true });

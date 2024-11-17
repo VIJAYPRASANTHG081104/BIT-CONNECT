@@ -10,7 +10,7 @@ const CreatePost = ({ setVisible, user, profile }) => {
       </div>
       <div className="createPost_body">
         <div className="createPost_icon hover1">
-        <i class="fa-solid fa-photo-film"></i>
+        <i className="fa-solid fa-photo-film"></i>
           Photo/Video
         </div>
       </div>

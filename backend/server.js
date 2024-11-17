@@ -27,7 +27,6 @@ try {
     console.log(`error:${error}`);
 }
 
-// console.log(readdirSync("./routes"))
 
 readdirSync("./routes").map((e) => {
   app.use("/", require("./routes/" + e));

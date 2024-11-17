@@ -1,19 +1,56 @@
 import { useRef, useState } from "react";
 import MenuItem from "./MenuItem";
 import useOnClickOutside from "../../helper/clickOutSide";
+import { savePost } from "../../functions/post";
+import { saveAs } from "file-saver";
 
-const PostMenu = ({ postUserId, userId, imagesLength, setShowMenu }) => {
+const PostMenu = ({
+  postUserId,
+  userId,
+  imagesLength,
+  setShowMenu,
+  postId,
+  token,
+  setCheckSaved,
+  checkSaved,
+  images
+}) => {
   const [test, setTest] = useState(postUserId === userId ? true : false);
+  console.log(checkSaved);
   const menu = useRef(null);
   useOnClickOutside(menu, () => setShowMenu(false));
+  const saveHandler = async () => {
+    savePost(postId, token);
+    if (checkSaved) {
+      setCheckSaved(false);
+    } else {
+      setCheckSaved(true);
+    }
+  };
+
+  const downloadImages = () => {
+    images.map((img)=>{
+      saveAs(img.url,"image.jpg")
+    })
+  };
   return (
     <ul className="post_menu" ref={menu}>
       {test && <MenuItem icon="pin_icon" title="Pin Post" />}
-      <MenuItem
-        icon="save_icon"
-        title="Save Post"
-        subtitle="Add this to your saved items."
-      />
+      <div onClick={() => saveHandler()}>
+        {checkSaved ? (
+          <MenuItem
+            icon="save_icon"
+            title="Unsave Post"
+            subtitle="Remove this from your saved items."
+          />
+        ) : (
+          <MenuItem
+            icon="save_icon"
+            title="Save Post"
+            subtitle="Add this to your saved items."
+          />
+        )}
+      </div>
       <div className="line"></div>
       {test && <MenuItem icon="edit_icon" title="Edit Post" />}
       {!test && (
@@ -22,7 +59,11 @@ const PostMenu = ({ postUserId, userId, imagesLength, setShowMenu }) => {
           title="Turn on notifications for this post"
         />
       )}
-      {imagesLength && <MenuItem icon="download_icon" title="Download" />}
+      {imagesLength && (
+        <div onClick={() => downloadImages()}>
+          <MenuItem icon="download_icon" title="Download" />
+        </div>
+      )}
       {imagesLength && (
         <MenuItem icon="fullscreen_icon" title="Enter Fullscreen" />
       )}

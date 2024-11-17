@@ -14,11 +14,7 @@ import clickOutSide from "./helper/clickOutSide";
 import axios from "axios";
 import { postsReducer } from "./functions/reducer";
 
-
-
 function App() {
-
-
   const user = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const [{ loading, error, post }, dispatch] = useReducer(postsReducer, {
@@ -34,7 +30,7 @@ function App() {
       dispatch({
         type: "POSTS_REQUEST",
       });
-      const  {data}  = await axios.get(
+      const { data } = await axios.get(
         `${import.meta.env.VITE_API_BACKEND_URL}/getallpost`,
         {
           headers: {
@@ -55,17 +51,36 @@ function App() {
   };
   return (
     <div>
-      {visible && <CreatePostPopup setVisible={setVisible} user={user} />}
+      {visible && (
+        <CreatePostPopup
+          setVisible={setVisible}
+          user={user}
+          post={post}
+          dispatch={dispatch}
+        />
+      )}
       <Routes>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />
         </Route>
         <Route element={<LoggedInRoutes />}>
-          <Route path="/profile" element={<Profile setVisible={setVisible}/>} />
-          <Route path="/profile/:username" element={<Profile setVisible={setVisible}/>} />
+          <Route
+            path="/profile"
+            element={<Profile getAllPosts={getAllPosts} />}
+          />
+          <Route
+            path="/profile/:username"
+            element={<Profile getAllPosts={getAllPosts} />}
+          />
           <Route
             path="/"
-            element={<Home post={post} setVisible={setVisible} />}
+            element={
+              <Home
+                post={post}
+                setVisible={setVisible}
+                getAllPosts={getAllPosts}
+              />
+            }
           />
           <Route path="/activate/:token" element={<Activate />} exact />
         </Route>

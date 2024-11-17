@@ -28,24 +28,26 @@ export function postsReducer(state, action) {
 export function profileReducer(state, action) {
   switch (action.type) {
     case "PROFILE_REQUEST":
-      return {
-        ...state,
-        loading: true,
-        error: "",
-      };
+      return { ...state, loading: true, error: "" };
     case "PROFILE_SUCCESS":
       return {
         ...state,
         loading: false,
-        error: "",
         profile: action.payload,
+        error: "",
+      };
+    case "PROFILE_POST":
+      return {
+        ...state, 
+        loading: false,
+        error: "",
+        profile: {
+          ...state.profile,
+          post: action.payload, 
+        },
       };
     case "PROFILE_ERROR":
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
+      return { ...state, loading: false, error: action.payload };
 
     default:
       return state;

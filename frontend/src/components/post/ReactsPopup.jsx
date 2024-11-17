@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-
-const ReactsPopup = ({ visible,setVisible }) => {
+const ReactsPopup = ({ visible, setVisible,reactHandler}) => {
   const reactArray = [
     {
       name: "like",
@@ -30,28 +29,32 @@ const ReactsPopup = ({ visible,setVisible }) => {
 
   return (
     <>
-    {visible && (
-      <div
-        className="reacts_popup"
-        onMouseOver={() => {
-          setTimeout(() => {
-            setVisible(true);
-          }, 500);
-        }}
-        onMouseLeave={() => {
-          setTimeout(() => {
-            setVisible(false);
-          }, 500);
-        }}
-      >
-        {reactArray.map((react, i) => (
-          <div className="react" key={i}>
-            <img src={react.image} alt="" />
-          </div>
-        ))}
-      </div>
-    )}
-  </>
+      {visible && (
+        <div
+          className="reacts_popup"
+          onMouseOver={() => {
+            setTimeout(() => {
+              setVisible(true);
+            }, 500);
+          }}
+          onMouseLeave={() => {
+            setTimeout(() => {
+              setVisible(false);
+            }, 500);
+          }}
+        >
+          {reactArray.map((react, i) => (
+            <div
+              className="react"
+              key={i}
+              onClick={() => reactHandler(react.name)}
+            >
+              <img src={react.image} alt="" />
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

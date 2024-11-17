@@ -23,7 +23,7 @@ const SendEmail = ({
       setVisible(2);
     } catch (error) {
       setLoading(false);
-      setError(error.response.data.msg);
+      setError(error.response.data.message);
     }
   };
   return (

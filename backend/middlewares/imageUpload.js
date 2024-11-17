@@ -3,7 +3,7 @@ const fs = require('fs');
 module.exports  = async function (req, res, next) {
   try {
     if (!req.files || Object.values(req.files).flat().length === 0) {
-      return res.status(400).send({ msg: "no files selected" });
+      return res.status(400).send({ message: "no files selected" });
     }
     let files = Object.values(req.files).flat();
     files.forEach((file) => {
@@ -16,13 +16,13 @@ module.exports  = async function (req, res, next) {
       ) {
         removeTmp(file.tempFilePath);
         return res.status(400).send({
-            msg:"Unsupported format!"
+            message:"Unsupported format!"
         });
       }
       if(file.size>1024*1024*5){
         removeTmp(file.tempFilePath);
         return res.status(400).send({
-            msg:"file size too high"
+            message:"file size too high"
         });
       }
     });
@@ -30,7 +30,7 @@ module.exports  = async function (req, res, next) {
 
   } catch (error) {
     return res.status(500).send({
-        msg:error.message
+        message:error.message
     })
   }
 };

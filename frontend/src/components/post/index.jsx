@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
@@ -6,10 +6,61 @@ import Dots from "../../svg/dots";
 import ReactsPopup from "./ReactsPopup";
 import CreateComment from "./CreateComment";
 import PostMenu from "./PostMenu";
+import { getReacts, reactPost } from "../../functions/post";
+import Comment from "./Comment";
 
 const Post = ({ post, user, profile }) => {
   const [visible, setVisible] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [reacts, setReacts] = useState();
+  const [check, setCheck] = useState();
+  const [total, setTotal] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [count, setCount] = useState(1);
+  const [checkSaved, setCheckSaved] = useState();
+
+  useEffect(() => {
+    getPostReacts();
+  }, [post]);
+
+  useEffect(() => {
+    setComments(post?.comments);
+  }, [post]);
+  console.log(post)
+  const getPostReacts = async () => {
+    const res = await getReacts(post._id, user.token);
+    setReacts(res.reacts);
+    setCheck(res?.check);
+    setTotal(res.total);
+    setCheckSaved(res.checkSaved);
+  };
+  const reactHandler = async (type) => {
+    reactPost(post._id, type, user.token);
+    if (check == type) {
+      setCheck();
+      let index = reacts.findIndex((x) => x.react == check);
+      if (index !== -1) {
+        setReacts([...reacts, (reacts[index].count = --reacts[index].count)]);
+        setTotal((prev) => --prev);
+      }
+    } else {
+      setCheck(type);
+      let index = reacts.findIndex((x) => x.react == type);
+      let index1 = reacts.findIndex((x) => x.react == check);
+      if (index !== -1) {
+        setReacts([...reacts, (reacts[index].count = ++reacts[index].count)]);
+        setTotal((prev) => ++prev);
+      }
+      if (index1 != -1) {
+        setReacts([...reacts, (reacts[index1].count = --reacts[index1].count)]);
+        setTotal((prev) => --prev);
+      }
+    }
+  };
+
+  const showMore = () => {
+    setCount((prev) => prev + 3);
+  };
   return (
     <div className="post" style={{ width: `${profile && "100%"}` }}>
       <div className="post_header">
@@ -99,49 +150,128 @@ const Post = ({ post, user, profile }) => {
       )}
       <div className="post_infos">
         <div className="reacts_count">
-          <div className="reacts_count_imgs"></div>
-          <div className="reacts_count_num"></div>
+          <div className="reacts_count_imgs">
+            {reacts &&
+              reacts.sort((a, b) => {
+                return b.count - a.count;
+              }) &&
+              reacts
+                .slice(0, 3)
+                .map(
+                  (react, index) =>
+                    react.count > 0 && (
+                      <img
+                        src={`../../../reacts/${react.react}.svg`}
+                        key={index}
+                        alt=""
+                      />
+                    )
+                )}
+          </div>
+          <div className="reacts_count_num">{total && total}</div>
         </div>
         <div className="to_right">
-          <div className="comments_count">13 comments</div>
+          <div className="comments_count">{comments.length} comments</div>
           <div className="share_count">1 share</div>
         </div>
       </div>
       <div className="post_actions">
-        {/* <ReactsPopup visible={visible} setVisible={setVisible} /> */}
+        <ReactsPopup
+          visible={visible}
+          setVisible={setVisible}
+          postId={post._id}
+          check={check}
+          setCheck={setCheck}
+          reactHandler={reactHandler}
+        />
         <div
           className="post_action hover1"
-          // onMouseOver={() => {
-          //   setTimeout(() => {
-          //     setVisible(true);
-          //   }, 500);
-          // }}
-          // onMouseLeave={() => {
-          //   setTimeout(() => {
-          //     setVisible(false);
-          //   }, 500);
-          // }}
-          onClick={() => setVisible((prev) => !prev)}
+          onMouseOver={() => {
+            setTimeout(() => {
+              setVisible(true);
+            }, 500);
+          }}
+          onMouseLeave={() => {
+            setTimeout(() => {
+              setVisible(false);
+            }, 500);
+          }}
+          onClick={() => reactHandler(check ? check : "like")}
         >
-          {visible === false ? (
-            <i class="fa-regular fa-thumbs-up"></i>
+          {check ? (
+            <img
+              src={`../../../reacts/${check}.svg`}
+              alt=""
+              className="small_react"
+              style={{
+                width: "10px",
+              }}
+            />
           ) : (
-            <i class="fa-solid fa-thumbs-up"></i>
+            <i className="fa-regular fa-thumbs-up"></i>
           )}
-          <span>Like</span>
+          <span
+            style={{
+              textTransform: "capitalize",
+              color: `${
+                check === "like"
+                  ? "#4267b2"
+                  : check === "love"
+                  ? "#f63459"
+                  : check === "haha"
+                  ? "#f7b125"
+                  : check === "sad"
+                  ? "#f7b125"
+                  : check === "wow"
+                  ? "#f7b125"
+                  : check === "angry"
+                  ? "#e4605a"
+                  : ""
+              }`,
+            }}
+          >
+            {check ? check : "Like"}
+          </span>
         </div>
         <div className="post_action hover1">
-          <i class="fa-regular fa-comment"></i>
+          <i className="fa-regular fa-comment"></i>
           <span>Comment</span>
         </div>
         <div className="post_action hover1">
-          <i class="fa-solid fa-share"></i>
+          <i className="fa-solid fa-share"></i>
           <span>Share</span>
         </div>
       </div>
       <div className="comments_wrap">
         <div className="comments_order"></div>
-        <CreateComment user={user} />
+        <CreateComment
+          user={user}
+          postId={post._id}
+          setComments={setComments}
+          setCount={setCount}
+        />
+        {comments &&
+          comments
+            .sort((a, b) => {
+              return new Date(b.commentAt) - new Date(a.commentAt);
+            })
+            .slice(0, count)
+            .map((comment, index) => (
+              <Comment
+                token={user.token}
+                postId={post._id}
+                username={user.username}
+                comment={comment}
+                key={index}
+                setCount={setCount}
+                setComments={setComments}
+              />
+            ))}
+        {count < comments.length && (
+          <div className="view_comments" onClick={showMore}>
+            View more comments
+          </div>
+        )}
       </div>
       {showMenu && (
         <PostMenu
@@ -149,6 +279,11 @@ const Post = ({ post, user, profile }) => {
           postUserId={post.user._id}
           imagesLength={post?.images?.length}
           setShowMenu={setShowMenu}
+          postId={post._id}
+          token={user.token}
+          setCheckSaved={setCheckSaved}
+          checkSaved={checkSaved}
+          images={post.images}
         />
       )}
     </div>

@@ -93,8 +93,8 @@ const RegisterForm = ({setVisible}) => {
         }
       );
       setError("");
-      setSuccess(data.msg);
-      const {msg,...rest} = data;
+      setSuccess(data.message);
+      const {message,...rest} = data;
       setTimeout(()=>{
         dispatch({type:"LOGIN",payload: rest})
         Cookies.set('user',JSON.stringify(rest));
@@ -104,7 +104,7 @@ const RegisterForm = ({setVisible}) => {
     } catch (error) {
       setLoading(false);
       setSuccess("");
-      setError(error.response.data.msg);
+      setError(error.response.data.message);
     }
   };
 

@@ -35,7 +35,7 @@ const SearchAccount = ({
       setError("");
     } catch (error) {
       setLoading(false);
-      setError(error.response.data.msg);
+      setError(error.response.data.message);
     }
   };
 

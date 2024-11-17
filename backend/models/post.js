@@ -1,45 +1,50 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const {ObjectId} = mongoose.Schema;
+const { ObjectId } = mongoose.Schema;
 
-const postSchema = new mongoose.Schema({
-    type:{
-        type:String,
-        enum:["profilePicture","coverPicture",null],
-        default:null
+const postSchema = new mongoose.Schema(
+  {
+    type: {
+      type: String,
+      enum: ["profilePicture", "coverPicture", null],
+      default: null,
     },
-    text:{
-        type:String
+    text: {
+      type: String,
     },
-    images:{
-        type:Array
+    images: {
+      type: Array,
     },
-    user:{
-        type:ObjectId,
-        ref:"User",
-        required:true
+    user: {
+      type: ObjectId,
+      ref: "User",
+      required: true,
     },
-    background:{
-        type:String
+    background: {
+      type: String,
     },
-    comments:{
-        comment:{
-            type:String,
+    comments: [
+      {
+        comment: {
+          type: String,
         },
-        image:{
-            type:String
+        image: {
+          type: String,
         },
-        commentedBy:{
-            type:ObjectId,
-            ref:"User"
+        commentBy: {
+          type: ObjectId,
+          ref: "User",
         },
-        commentAt:{
-            type:Date,
-            default:new Date()
-        }
-    }
-},{
-    timestamps:true
-});
+        commentAt: {
+          type: Date,
+          required:true
+        },
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('Post',postSchema);
+module.exports = mongoose.model("Post", postSchema);

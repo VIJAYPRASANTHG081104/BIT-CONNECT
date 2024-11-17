@@ -5,7 +5,6 @@ import FriendShip from "./FriendShip";
 const ProfilePictureInfos = ({ profile, vistor, photos, othername }) => {
   const [show, setShow] = useState(false);
   const pRef = useRef(null);
-  // console.log(pRef)
   const changePicture = (pictureUrl) => {
     pRef.current.style.backgroundImage = `url(${pictureUrl})`;
   };

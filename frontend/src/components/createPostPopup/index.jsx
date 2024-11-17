@@ -10,7 +10,7 @@ import PostError from "./PostError";
 import dataURItoBlob from "../../helper/dataURItoBlob";
 import { uploadImages } from "../../functions/uploadImages";
 
-const CreatePostPopup = ({ user, setVisible }) => {
+const CreatePostPopup = ({ user, setVisible, post, dispatch, profile }) => {
   const [text, setText] = useState("");
   const [showPrev, setShowPrev] = useState(true);
   const [images, setImages] = useState([]);
@@ -21,6 +21,7 @@ const CreatePostPopup = ({ user, setVisible }) => {
   clickOutSide(popup, () => {
     setVisible(false);
   });
+  console.log(post)
   const postSubmit = async () => {
     if (background) {
       setLoading(true);
@@ -33,7 +34,11 @@ const CreatePostPopup = ({ user, setVisible }) => {
         user.token
       );
       setLoading(false);
-      if (res === "ok") {
+      if (res.status === "ok") {
+        dispatch({
+          type: profile ? "PROFILE_POST" : "POST_SUCCESS",
+          payload: [res.data, ...post],
+        });
         setbackground("");
         setText("");
         setVisible(false);
@@ -62,7 +67,11 @@ const CreatePostPopup = ({ user, setVisible }) => {
         user.id,
         user.token
       );
-      if (res === "ok") {
+      if (res.status === "ok") {
+        dispatch({
+          type: profile ? "PROFILE_POST" : "POST_SUCCESS",
+          payload: [res.data, ...post],
+        });
         setLoading(false);
         setText("");
         setVisible(false);
@@ -73,7 +82,11 @@ const CreatePostPopup = ({ user, setVisible }) => {
       setLoading(true);
       const res = await createPost(null, null, text, null, user.id, user.token);
       setLoading(false);
-      if (res === "ok") {
+      if (res.status === "ok") {
+        dispatch({
+          type: profile ? "PROFILE_POST" : "POST_SUCCESS",
+          payload: [res.data, ...post],
+        });
         setbackground("");
         setText("");
         setVisible(false);
@@ -97,7 +110,7 @@ const CreatePostPopup = ({ user, setVisible }) => {
             <i className="fa-solid fa-x"></i>
           </div>
         </div>
-        <br/>
+        <br />
         {showPrev ? (
           <>
             <EmojiPickerBackground

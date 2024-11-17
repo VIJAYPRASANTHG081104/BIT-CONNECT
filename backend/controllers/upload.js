@@ -19,7 +19,7 @@ const uploadImages = async (req, res) => {
     }
     res.send(images);
   } catch (error) {
-    return res.status(500).send({ msg: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 const uploadCloudinary = async (file, path) => {
@@ -33,7 +33,7 @@ const uploadCloudinary = async (file, path) => {
         if (err) {
           removeTemp(file.tempFilePath);
           return res.status(400).send({
-            msg: "upload image failed",
+            message: "upload image failed",
           });
         }
         resolve({

@@ -8,7 +8,7 @@ import SearchMenu from "./SearchMenu.jsx";
 import clickOutSide from "../../helper/clickOutSide.js";
 import UserMenu from "./userMenu/index.jsx";
 import Home from "../../svg/home.jsx";
-const Header= ({page}) => {
+const Header= ({page,getAllPosts}) => {
   const user = useSelector((state) => state.user);
   const color = "#65676b";
 
@@ -46,8 +46,8 @@ const Header= ({page}) => {
         <SearchMenu setShowSearchMenu={setShowSearchMenu} color={color} />
       )}
       <div className="header_middle">
-        <Link to="/" className="middle_icon">
-         {page === 'home'? <i class="fa-solid fa-house"></i>:<Home color={color}/>}
+        <Link to="/" className="middle_icon" onClick={getAllPosts}>
+         {page === 'home'? <i className="fa-solid fa-house"></i>:<Home color={color}/>}
         </Link>
       </div>
       <div className="header_right">
@@ -59,7 +59,7 @@ const Header= ({page}) => {
           <div onClick={() => setShowUserMenu((prev) => !prev)}>
             {/* <ArrowDown />
              */}
-             <i class="fa-solid fa-droplet"></i>
+             <i className="fa-solid fa-droplet"></i>
           </div>
           {showuserMenu && <UserMenu user={user} />}
         </div>
