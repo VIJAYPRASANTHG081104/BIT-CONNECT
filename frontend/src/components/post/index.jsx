@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
@@ -26,7 +26,7 @@ const Post = ({ post, user, profile }) => {
   useEffect(() => {
     setComments(post?.comments);
   }, [post]);
-  console.log(post)
+  console.log(post);
   const getPostReacts = async () => {
     const res = await getReacts(post._id, user.token);
     setReacts(res.reacts);
@@ -61,8 +61,14 @@ const Post = ({ post, user, profile }) => {
   const showMore = () => {
     setCount((prev) => prev + 3);
   };
+
+  const postRef = useRef(null);
   return (
-    <div className="post" style={{ width: `${profile && "100%"}` }}>
+    <div
+      ref={postRef}
+      className="post"
+      style={{ width: `${profile && "100%"}` }}
+    >
       <div className="post_header">
         <Link
           to={`/profile/${post.user.username}`}
@@ -284,6 +290,7 @@ const Post = ({ post, user, profile }) => {
           setCheckSaved={setCheckSaved}
           checkSaved={checkSaved}
           images={post.images}
+          postRef={postRef}
         />
       )}
     </div>

@@ -136,9 +136,13 @@ const savePost = async (req, res) => {
   }
 };
 
-const deletePost = () =>{
-  
-}
+const deletePost = async (req, res) => {
+  try {
+    console.log("heheheheh");
+    const data = await postModel.findByIdAndDelete(req.params.id);
+    return res.status(200).send({ status: "ok" });
+  } catch (error) {}
+};
 
 module.exports = {
   createPost,
@@ -146,4 +150,5 @@ module.exports = {
   comment,
   deleteComment,
   savePost,
+  deletePost,
 };

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import MenuItem from "./MenuItem";
 import useOnClickOutside from "../../helper/clickOutSide";
-import { savePost } from "../../functions/post";
+import { deletePost, savePost } from "../../functions/post";
 import { saveAs } from "file-saver";
 
 const PostMenu = ({
@@ -13,7 +13,8 @@ const PostMenu = ({
   token,
   setCheckSaved,
   checkSaved,
-  images
+  images,
+  postRef,
 }) => {
   const [test, setTest] = useState(postUserId === userId ? true : false);
   console.log(checkSaved);
@@ -29,9 +30,16 @@ const PostMenu = ({
   };
 
   const downloadImages = () => {
-    images.map((img)=>{
-      saveAs(img.url,"image.jpg")
-    })
+    images.map((img) => {
+      saveAs(img.url, "image.jpg");
+    });
+  };
+
+  const deleteHandler = async () => {
+    const res = await deletePost(postId, token);
+    if (res.status === "ok") {
+      postRef.current.style.display = "none";
+    }
   };
   return (
     <ul className="post_menu" ref={menu}>
@@ -81,11 +89,13 @@ const PostMenu = ({
       )}
       {test && <MenuItem icon="archive_icon" title="Move to archive" />}
       {test && (
-        <MenuItem
-          icon="trash_icon"
-          title="Move to trash"
-          subtitle="items in your trash are deleted after 30 days"
-        />
+        <div onClick={deleteHandler}>
+          <MenuItem
+            icon="trash_icon"
+            title="Move to trash"
+            subtitle="items in your trash are deleted after 30 days"
+          />
+        </div>
       )}
       {!test && <div className="line"></div>}
       {!test && (
